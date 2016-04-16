@@ -16,10 +16,10 @@ namespace OmniEditorX
             Shown += LayoutEditor;
         }
 
-        string lastText = "";
+        string _lastText = "";
 
-        int tabLevel = 0;
-        string tokens = "(EPad)";
+        int _tabLevel = 0;
+        string _tokens = "(EPad)";
 
         private void SetUpEditor(object sender, EventArgs e)
         {
@@ -40,24 +40,29 @@ namespace OmniEditorX
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
-            if (Text != lastText)
+            if (Text != _lastText)
             {
-                lastText = Text;
-                Regex rX = new Regex(tokens);
-                MatchCollection matches = rX.Matches(Text);
-                int StartCursorPosition = Selection.Start;
-                foreach (Match m in matches)
+                /*
+                Application.Instance.AsyncInvoke(delegate
                 {
-                    int startIndex = m.Index;
-                    int StopIndex = m.Index + m.Length;
-                    Select(startIndex, StopIndex);
-                    SelectionForeground = Colors.Blue;
-                    SelectionBold = true;
-                    Select(StartCursorPosition, StartCursorPosition - 1);
-                    SelectionBold = false;
-                    SelectionForeground = Colors.Black;
-                    Select(StartCursorPosition + 1, StartCursorPosition);
-                }
+                    lastText = Text;
+                    Regex rX = new Regex(tokens);
+                    MatchCollection matches = rX.Matches(Text);
+                    int StartCursorPosition = Selection.Start;
+                    foreach (Match m in matches)
+                    {
+                        int startIndex = m.Index;
+                        int StopIndex = startIndex + m.Length;
+                        Select(startIndex, StopIndex);
+                        SelectionForeground = Colors.Blue;
+                        SelectionBold = true;
+                        Select(StartCursorPosition, StartCursorPosition - 1);
+                        SelectionBold = false;
+                        SelectionForeground = Colors.Black;
+                        Select(StartCursorPosition + 1, StartCursorPosition);
+                    }
+                });
+                */
             }
         }
 
